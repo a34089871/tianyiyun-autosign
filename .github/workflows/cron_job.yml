@@ -2,7 +2,6 @@ name: Cloud189 Auto Sign-in
 
 on:
   schedule:
-    # Runs at 8am UTC every day (which is 4pm China time)
     - cron: '0 8 * * *'
   workflow_dispatch:
 
@@ -24,9 +23,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests rsa
         
+    - name: List directory contents (for debugging)
+      run: ls -la
+        
     - name: Run Cloud189 sign-in script
       env:
         CLOUD189_USERNAME: ${{ secrets.CLOUD189_USERNAME }}
         CLOUD189_PASSWORD: ${{ secrets.CLOUD189_PASSWORD }}
       run: |
         python cloud189.py
+      working-directory: ./
